@@ -3,49 +3,323 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>sakh3p — карта заброшек Сахалина</title>
+    <title>sakh3p — архив заброшенных мест Сахалина</title>
     <style>
+        /* ----- БАЗА ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background: #0b0b0b;
-            color: #e0e0e0;
-            text-align: center;
-            padding: 40px 20px;
-        }
-        h1 {
-            font-size: 48px;
-            letter-spacing: 2px;
-            color: #d4a373;
-        }
-        .sub {
-            font-size: 18px;
-            color: #888;
-            margin-top: 10px;
-        }
-        .coming {
-            margin-top: 40px;
-            font-size: 20px;
-            border: 1px solid #333;
+            background: #0e0d0c;
+            color: #c5c0b8;
+            font-family: 'Segoe UI', 'Courier New', monospace;
+            line-height: 1.6;
             padding: 20px;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 8px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .footer {
-            margin-top: 50px;
+
+        /* ----- КОНТЕЙНЕР ----- */
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(20, 18, 16, 0.85);
+            border: 1px solid #2f2a24;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(30, 25, 20, 0.3);
+            backdrop-filter: blur(2px);
+        }
+
+        /* ----- ШАПКА (urban3p-стиль) ----- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #3d352e;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #d9c8b2;
+            text-shadow: 0 0 20px rgba(180, 140, 100, 0.2);
+            font-family: 'Courier New', monospace;
+        }
+
+        .logo .sub {
             font-size: 14px;
-            color: #444;
+            color: #8a7e72;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .stats {
+            text-align: right;
+            font-size: 13px;
+            color: #6b6258;
+            border-left: 1px solid #2f2a24;
+            padding-left: 20px;
+        }
+
+        .stats span {
+            display: block;
+            color: #b8a99a;
+        }
+
+        /* ----- НАВИГАЦИЯ (сталкер-стиль) ----- */
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 4px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #1f1b17;
+            padding-bottom: 10px;
+        }
+
+        .nav a {
+            color: #b09b88;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 16px;
+            border: 1px solid transparent;
+            transition: 0.2s;
+            font-weight: 500;
+            letter-spacing: 1px;
+            background: transparent;
+            border-radius: 4px;
+        }
+
+        .nav a:hover {
+            background: #1f1b17;
+            border-color: #5f4d3b;
+            color: #e3d3c0;
+            box-shadow: 0 0 12px rgba(120, 90, 60, 0.15);
+        }
+
+        /* ----- ГЛАВНЫЙ БЛОК ----- */
+        .hero {
+            background: #181511;
+            border-left: 4px solid #6f5a45;
+            padding: 25px 25px;
+            margin-bottom: 30px;
+            border-radius: 6px;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+        }
+
+        .hero h2 {
+            font-size: 28px;
+            color: #d6c5b2;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .hero p {
+            color: #a09080;
+            max-width: 700px;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #2f261f;
+            color: #b8a392;
+            padding: 4px 14px;
+            font-size: 12px;
+            border-radius: 20px;
+            margin-top: 12px;
+            border: 1px solid #4d3d30;
+        }
+
+        /* ----- СЕТКА КАРТОЧЕК (объекты) ----- */
+        .section-title {
+            font-size: 18px;
+            color: #bfae9b;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 30px 0 15px 0;
+            border-bottom: 1px solid #2a2420;
+            padding-bottom: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            background: #141210;
+            border: 1px solid #2a2420;
+            padding: 16px 16px 12px 16px;
+            border-radius: 6px;
+            transition: 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .card:hover {
+            border-color: #6a5542;
+            background: #1c1814;
+            transform: translateY(-2px);
+        }
+
+        .card .name {
+            color: #dacbbd;
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .card .meta {
+            font-size: 12px;
+            color: #7a6e62;
+            margin-top: 4px;
+        }
+
+        .card .status {
+            font-size: 11px;
+            color: #9a8b7a;
+            margin-top: 6px;
+            border-top: 1px solid #1f1b17;
+            padding-top: 6px;
+        }
+
+        .empty {
+            color: #5f5346;
+            font-style: italic;
+            padding: 10px 0;
+        }
+
+        /* ----- ФУТЕР ----- */
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #1f1b17;
+            font-size: 13px;
+            color: #4d443b;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .footer a {
+            color: #8a7a68;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #bfad98;
+        }
+
+        /* ----- АДАПТИВ ----- */
+        @media (max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .stats {
+                border-left: none;
+                padding-left: 0;
+                text-align: left;
+            }
+            .logo h1 {
+                font-size: 30px;
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .nav a {
+                font-size: 13px;
+                padding: 4px 12px;
+            }
+        }
+
+        /* ----- СТАЛКЕР-АКЦЕНТЫ ----- */
+        .accent {
+            color: #bd9f85;
+            border-color: #5f4d3b;
+        }
+
+        ::selection {
+            background: #3d2f22;
+            color: #efe3d5;
+        }
+
+        /* Символы */
+        .symbol {
+            color: #6f5f4f;
+            margin-right: 6px;
         }
     </style>
 </head>
 <body>
-    <h1>🏚️ sakh3p</h1>
-    <div class="sub">карта заброшенных мест Сахалина</div>
-    <div class="coming">
-        ⚡ Проект запускается<br>
-        <span style="font-size:14px;color:#666;">объекты · библиотека · блоги</span>
+    <div class="container">
+
+        <!-- ШАПКА -->
+        <div class="header">
+            <div class="logo">
+                <h1>🏚️ sakh3p</h1>
+                <div class="sub">архив заброшенных мест · Сахалин</div>
+            </div>
+            <div class="stats">
+                <span>объектов: <strong>0</strong></span>
+                <span style="font-size:12px; color:#5a5045;">обновлено: сегодня</span>
+            </div>
+        </div>
+
+        <!-- НАВИГАЦИЯ -->
+        <div class="nav">
+            <a href="#">📋 объекты</a>
+            <a href="#">📚 библиотека</a>
+            <a href="#">📝 блоги</a>
+            <a href="#">➕ добавить</a>
+            <a href="#">🗺️ карта</a>
+        </div>
+
+        <!-- ГЛАВНЫЙ БЛОК -->
+        <div class="hero">
+            <h2>⛰️ Сахалин. Заброшенный мир.</h2>
+            <p>Карта заброшенных заводов, военных объектов, маяков, посёлков-призраков и забытых мест острова.</p>
+            <span class="tag">#урбекс #сталкер #история</span>
+        </div>
+
+        <!-- ОБЪЕКТЫ -->
+        <div class="section-title">🔍 последние добавленные объекты</div>
+        <div class="grid" id="object-list">
+            <div class="empty">— пока ничего нет. добавь первый объект →</div>
+        </div>
+
+        <!-- БИБЛИОТЕКА (мини) -->
+        <div class="section-title" style="margin-top:35px;">📖 библиотека</div>
+        <div style="background:#11100d; border-left:2px solid #4d3d30; padding:14px 18px; border-radius:4px; color:#8f7f6e;">
+            <span style="color:#b09b88;">📄 «Маяк Анива: история и современное состояние»</span><br>
+            <span style="color:#5f5346; font-size:13px;">➕ добавьте свой материал</span>
+        </div>
+
+        <!-- БЛОГИ (мини) -->
+        <div class="section-title" style="margin-top:30px;">✍️ блоги</div>
+        <div style="background:#11100d; border-left:2px solid #4d3d30; padding:14px 18px; border-radius:4px; color:#8f7f6e;">
+            <span style="color:#b09b88;">📌 «Как я искал вход в бункер» — <span style="color:#6a5542;">читать →</span></span>
+        </div>
+
+        <!-- ФУТЕР -->
+        <div class="footer">
+            <span style="color:#3d352e;">// sakh3p — архив заброшенных мест Сахалина //</span><br>
+            <span style="font-size:11px;">сделано вручную · 2026 · <a href="https://github.com/GawkerGames/sakh3p" target="_blank">github</a></span>
+        </div>
+
     </div>
-    <div class="footer">скоро здесь появится первый объект</div>
+
+    <!-- 👇 здесь позже появится JavaScript для загрузки объектов -->
 </body>
 </html>
