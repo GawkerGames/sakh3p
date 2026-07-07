@@ -48,6 +48,17 @@
             letter-spacing: 2px;
             text-transform: uppercase;
         }
+        .stats {
+            text-align: right;
+            font-size: 13px;
+            color: #6b6258;
+            border-left: 1px solid #2f2a24;
+            padding-left: 20px;
+        }
+        .stats span {
+            display: block;
+            color: #b8a99a;
+        }
         .nav {
             display: flex;
             flex-wrap: wrap;
@@ -122,41 +133,6 @@
             font-style: italic;
             padding: 10px 0;
         }
-        .form-area {
-            background: #11100d;
-            border: 1px solid #2a2420;
-            padding: 20px;
-            border-radius: 6px;
-            margin-top: 20px;
-        }
-        .form-area input, .form-area textarea {
-            width: 100%;
-            background: #1a1714;
-            border: 1px solid #2f2a24;
-            color: #c5c0b8;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-            font-family: inherit;
-        }
-        .form-area input:focus, .form-area textarea:focus {
-            border-color: #6f5a45;
-            outline: none;
-        }
-        .form-area button {
-            background: #2f261f;
-            color: #dacbbd;
-            border: 1px solid #4d3d30;
-            padding: 10px 24px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.2s;
-        }
-        .form-area button:hover {
-            background: #4d3d30;
-            border-color: #6f5a45;
-        }
         .footer {
             margin-top: 40px;
             padding-top: 20px;
@@ -171,6 +147,7 @@
         }
         @media (max-width: 600px) {
             .header { flex-direction: column; align-items: flex-start; }
+            .stats { border-left: none; padding-left: 0; text-align: left; }
             .logo h1 { font-size: 28px; }
             .grid { grid-template-columns: 1fr; }
         }
@@ -182,7 +159,11 @@
         <div class="header">
             <div class="logo">
                 <h1>🏚️ sakh3p</h1>
-                <div class="sub">архив заброшенных мест</div>
+                <div class="sub">архив заброшенных мест · Сахалин</div>
+            </div>
+            <div class="stats">
+                <span>объектов: <strong id="obj-count">0</strong></span>
+                <span style="font-size:12px; color:#5a5045;">архив пополняется</span>
             </div>
         </div>
 
@@ -195,8 +176,45 @@
         </div>
 
         <div class="section-title">📍 объекты</div>
+
+        <!-- Список объектов (добавляй новые сюда!) -->
         <div class="grid" id="object-list">
-            <div class="empty">— пока ничего нет. добавь первый объект →</div>
+
+            <!-- ========================================================= -->
+            <!-- 👇 НОВЫЙ ОБЪЕКТ — копируй этот блок и вставляй ниже -->
+            <!-- ========================================================= -->
+            <!--
+            <div class="card">
+                <div class="name">Название объекта</div>
+                <div class="desc">Краткое описание</div>
+                <div class="type">Тип объекта</div>
+            </div>
+            -->
+            <!-- ========================================================= -->
+
+            <!-- Пример объекта (удали или замени) -->
+            <div class="card">
+                <div class="name">Маяк Анива</div>
+                <div class="desc">Заброшенный японский маяк на мысе Анива. Построен в 1939 году, заброшен с 2006 года.</div>
+                <div class="type">Маяк</div>
+            </div>
+
+            <div class="card">
+                <div class="name">Холмский ЦБЗ</div>
+                <div class="desc">Бумажная фабрика Маоки — заброшенный завод в Холмске.</div>
+                <div class="type">Завод</div>
+            </div>
+
+            <!-- ========================================================= -->
+            <!-- 👆 КОНЕЦ СПИСКА — добавляй новые объекты выше этой строки -->
+            <!-- ========================================================= -->
+
+        </div>
+
+        <div style="margin-top: 20px; padding: 14px 18px; background: #11100d; border: 1px solid #2a2420; border-radius: 6px; color: #8f7f6e;">
+            <span style="color:#b09b88;">📌</span> Нашёл объект? <a href="add.html" style="color:#b09b88;">Добавь его в архив</a> — после проверки он появится здесь.
+        </div>
+
         <div class="footer">
             <span style="color:#3d352e;">// sakh3p — архив заброшенных мест Сахалина //</span><br>
             <span style="font-size:11px;">сделано вручную · 2026 · <a href="https://github.com/GawkerGames/sakh3p" target="_blank">github</a></span>
@@ -205,41 +223,9 @@
     </div>
 
     <script>
-        // Загрузка объектов из localStorage
-        let objects = JSON.parse(localStorage.getItem('sakh3p_objects')) || [];
-
-        function renderObjects() {
-            const list = document.getElementById('object-list');
-            if (objects.length === 0) {
-                list.innerHTML = '<div class="empty">— пока ничего нет. добавь первый объект →</div>';
-                return;
-            }
-            list.innerHTML = objects.map((obj, i) => `
-                <div class="card">
-                    <div class="name">${obj.name}</div>
-                    <div class="desc">${obj.desc}</div>
-                    <div class="type">${obj.type}</div>
-                </div>
-            `).join('');
-        }
-
-        function addObject() {
-            const name = document.getElementById('obj-name').value.trim();
-            const type = document.getElementById('obj-type').value.trim();
-            const desc = document.getElementById('obj-desc').value.trim();
-            if (!name || !type || !desc) {
-                alert('заполни все поля');
-                return;
-            }
-            objects.push({ name, type, desc });
-            localStorage.setItem('sakh3p_objects', JSON.stringify(objects));
-            renderObjects();
-            document.getElementById('obj-name').value = '';
-            document.getElementById('obj-type').value = '';
-            document.getElementById('obj-desc').value = '';
-        }
-
-        renderObjects();
+        // Простой счётчик объектов
+        const cards = document.querySelectorAll('.card');
+        document.getElementById('obj-count').textContent = cards.length;
     </script>
 </body>
 </html>
