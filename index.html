@@ -212,4 +212,34 @@
 
         <div class="footer">
             <span style="color:#3d352e;">// sakh3p — архив заброшенных мест Сахалина //</span><br>
-            <span style="font-size:11px;">сделано
+            <span style="font-size:11px;">сделано вручную · 2026 · <a href="https://github.com/GawkerGames/sakh3p" target="_blank">github</a></span>
+        </div>
+
+    </div>
+
+    <script>
+        let objects = JSON.parse(localStorage.getItem('sakh3p_objects')) || [];
+
+        function renderObjects() {
+            const list = document.getElementById('object-list');
+            const count = document.getElementById('obj-count');
+            count.textContent = objects.length;
+            if (objects.length === 0) {
+                list.innerHTML = '<div class="empty">— пока ничего нет. добавь первый объект →</div>';
+                return;
+            }
+            // показываем последние 3 объекта
+            const recent = objects.slice(-3).reverse();
+            list.innerHTML = recent.map(obj => `
+                <div class="card">
+                    <div class="name">${obj.name}</div>
+                    <div class="desc">${obj.desc}</div>
+                    <div class="type">${obj.type}</div>
+                </div>
+            `).join('');
+        }
+
+        renderObjects();
+    </script>
+</body>
+</html>
