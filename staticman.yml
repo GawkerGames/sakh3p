@@ -1,0 +1,13 @@
+comments:
+  allowedFields: ["name", "type", "desc"]
+  requiredFields: ["name", "type", "desc"]
+  branch: "main"
+  commitMessage: "Добавлен объект: {fields.name}"
+  filename: "entry{@timestamp}"
+  format: "json"
+  generatedFields:
+    date:
+      type: "date"
+      options:
+        format: "iso8601"
+  moderation: true
