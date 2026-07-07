@@ -1,1 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sakh3p — блоги</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0e0d0c;
+            color: #c5c0b8;
+            font-family: 'Segoe UI', 'Courier New', monospace;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(20, 18, 16, 0.85);
+            border: 1px solid #2f2a24;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #3d352e;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #d9c8b2;
+            font-family: 'Courier New', monospace;
+        }
+        .logo .sub {
+            font-size: 14px;
+            color: #8a7e72;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #1f1b17;
+            padding-bottom: 10px;
+        }
+        .nav a {
+            color: #b09b88;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 16px;
+            border: 1px solid transparent;
+            transition: 0.2s;
+            border-radius: 4px;
+        }
+        .nav a:hover {
+            background: #1f1b17;
+            border-color: #5f4d3b;
+            color: #e3d3c0;
+        }
+        .nav a.active {
+            background: #1f1b17;
+            border-color: #6f5a45;
+            color: #e3d3c0;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #bfae9b;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 20px 0 15px 0;
+            border-bottom: 1px solid #2a2420;
+            padding-bottom: 8px;
+        }
+        .placeholder-block {
+            background: #11100d;
+            border-left: 2px solid #4d3d30;
+            padding: 14px 18px;
+            border-radius: 4px;
+            color: #8f7f6e;
+        }
+        .placeholder-block span {
+            color: #b09b88;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #1f1b17;
+            font-size: 13px;
+            color: #4d443b;
+            text-align: center;
+        }
+        .footer a {
+            color: #8a7a68;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .header { flex-direction: column; align-items: flex-start; }
+            .logo h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
 
+        <div class="header">
+            <div class="logo">
+                <h1>✍️ sakh3p</h1>
+                <div class="sub">блоги</div>
+            </div>
+        </div>
+
+        <div class="nav">
+            <a href="index.html">🏠 главная</a>
+            <a href="objects.html">📋 объекты</a>
+            <a href="library.html">📚 библиотека</a>
+            <a href="blog.html" class="active">📝 блоги</a>
+            <a href="add.html">➕ добавить</a>
+        </div>
+
+        <div class="section-title">📌 отчёты с вылазок</div>
+        <div class="placeholder-block">
+            <span>📌 здесь будут отчёты с вылазок и личные истории</span><br>
+            <span style="color:#5f5346; font-size:13px;">первые записи появятся после первых вылазок</span>
+        </div>
+
+        <div class="footer">
+            <span style="color:#3d352e;">// sakh3p — архив заброшенных мест Сахалина //</span><br>
+            <span style="font-size:11px;">сделано вручную · 2026 · <a href="https://github.com/GawkerGames/sakh3p" target="_blank">github</a></span>
+        </div>
+
+    </div>
+</body>
+</html>
