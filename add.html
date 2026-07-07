@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sakh3p — добавить объект</title>
     <style>
+        /* оставляем стили как в прошлой версии */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0e0d0c;
@@ -73,48 +74,41 @@
         .form-area {
             background: #11100d;
             border: 1px solid #2a2420;
-            padding: 20px;
+            padding: 30px;
             border-radius: 6px;
+            text-align: center;
         }
-        .form-area label {
-            display: block;
-            color: #bfae9b;
-            font-size: 14px;
-            margin: 12px 0 4px 0;
-            letter-spacing: 1px;
+        .form-area h2 {
+            color: #dacbbd;
+            font-weight: 400;
+            font-size: 22px;
+            margin-bottom: 10px;
         }
-        .form-area input, .form-area textarea {
-            width: 100%;
-            background: #1a1714;
-            border: 1px solid #2f2a24;
-            color: #c5c0b8;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 4px;
-            font-family: inherit;
+        .form-area p {
+            color: #8f7f6e;
+            font-size: 16px;
+            margin-bottom: 20px;
         }
-        .form-area input:focus, .form-area textarea:focus {
-            border-color: #6f5a45;
-            outline: none;
-        }
-        .form-area button {
+        .btn {
+            display: inline-block;
             background: #2f261f;
             color: #dacbbd;
             border: 1px solid #4d3d30;
-            padding: 10px 24px;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 14px 32px;
+            border-radius: 6px;
+            text-decoration: none;
             font-weight: 600;
             transition: 0.2s;
-            margin-top: 10px;
+            font-size: 18px;
         }
-        .form-area button:hover {
+        .btn:hover {
             background: #4d3d30;
             border-color: #6f5a45;
         }
-        .form-area button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .hint {
+            color: #6b6258;
+            font-size: 13px;
+            margin-top: 20px;
         }
         .footer {
             margin-top: 40px;
@@ -128,32 +122,10 @@
             color: #8a7a68;
             text-decoration: none;
         }
-        .hint {
-            color: #6b6258;
-            font-size: 13px;
-            margin-top: 8px;
-        }
-        .message {
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 15px;
-            display: none;
-        }
-        .message.success {
-            display: block;
-            background: #1a2a1a;
-            border: 1px solid #3a6a3a;
-            color: #aad6aa;
-        }
-        .message.error {
-            display: block;
-            background: #2a1a1a;
-            border: 1px solid #6a3a3a;
-            color: #d6aaaa;
-        }
         @media (max-width: 600px) {
             .header { flex-direction: column; align-items: flex-start; }
             .logo h1 { font-size: 28px; }
+            .btn { font-size: 16px; padding: 12px 24px; }
         }
     </style>
 </head>
@@ -175,25 +147,11 @@
             <a href="add.html" class="active">➕ добавить</a>
         </div>
 
-        <div id="formMessage" class="message"></div>
-
         <div class="form-area">
-            <form id="objectForm" method="POST" action="https://api.staticman.net/v2/entry/GawkerGames/sakh3p/main">
-                <input type="hidden" name="options[redirect]" value="https://gawkergames.github.io/sakh3p/thanks.html">
-
-                <label for="name">название объекта *</label>
-                <input type="text" id="name" name="fields[name]" placeholder="например: заброшенный маяк" required>
-
-                <label for="type">тип *</label>
-                <input type="text" id="type" name="fields[type]" placeholder="завод / бункер / маяк / посёлок / больница / др." required>
-
-                <label for="desc">описание *</label>
-                <textarea id="desc" name="fields[desc]" rows="4" placeholder="краткое описание. БЕЗ КООРДИНАТ и точных адресов." required></textarea>
-
-                <div class="hint">⚠️ координаты и точные адреса не публикуются — чтобы защитить места от вандалов.</div>
-
-                <button type="submit" id="submitBtn">➕ отправить на модерацию</button>
-            </form>
+            <h2>📝 хочу добавить объект</h2>
+            <p>Заполните форму — ваша заявка попадёт в базу. <br>После проверки объект появится на сайте.</p>
+            <a href="https://docs.google.com/forms/d/e/твой-ключ/viewform" target="_blank" class="btn">📝 перейти к форме</a>
+            <div class="hint">⚠️ координаты и точные адреса не публикуются — чтобы защитить места от вандалов.</div>
         </div>
 
         <div class="footer">
@@ -202,45 +160,5 @@
         </div>
 
     </div>
-
-    <script>
-        const form = document.getElementById('objectForm');
-        const messageEl = document.getElementById('formMessage');
-
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.textContent = '⏳ отправка...';
-
-            const formData = new FormData(form);
-            const data = {};
-            formData.forEach((value, key) => { data[key] = value; });
-
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.fields && result.fields.name) {
-                    messageEl.className = 'message success';
-                    messageEl.innerHTML = '✅ объект отправлен на модерацию! он появится на сайте после проверки.';
-                    form.reset();
-                } else {
-                    throw new Error(result.message || 'ошибка отправки');
-                }
-            } catch (error) {
-                messageEl.className = 'message error';
-                messageEl.innerHTML = '❌ ошибка: ' + error.message + '. попробуй ещё раз.';
-            } finally {
-                btn.disabled = false;
-                btn.textContent = '➕ отправить на модерацию';
-            }
-        });
-    </script>
 </body>
 </html>
