@@ -112,6 +112,10 @@
             background: #4d3d30;
             border-color: #6f5a45;
         }
+        .form-area button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         .footer {
             margin-top: 40px;
             padding-top: 20px;
@@ -128,6 +132,24 @@
             color: #6b6258;
             font-size: 13px;
             margin-top: 8px;
+        }
+        .message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .message.success {
+            display: block;
+            background: #1a2a1a;
+            border: 1px solid #3a6a3a;
+            color: #aad6aa;
+        }
+        .message.error {
+            display: block;
+            background: #2a1a1a;
+            border: 1px solid #6a3a3a;
+            color: #d6aaaa;
         }
         @media (max-width: 600px) {
             .header { flex-direction: column; align-items: flex-start; }
@@ -153,19 +175,25 @@
             <a href="add.html" class="active">➕ добавить</a>
         </div>
 
+        <div id="formMessage" class="message"></div>
+
         <div class="form-area">
-            <label for="name">название объекта *</label>
-            <input type="text" id="name" placeholder="например: заброшенный маяк">
+            <form id="objectForm" method="POST" action="https://api.staticman.net/v2/entry/GawkerGames/sakh3p/main">
+                <input type="hidden" name="options[redirect]" value="https://gawkergames.github.io/sakh3p/thanks.html">
 
-            <label for="type">тип *</label>
-            <input type="text" id="type" placeholder="завод / бункер / маяк / посёлок / больница / др.">
+                <label for="name">название объекта *</label>
+                <input type="text" id="name" name="fields[name]" placeholder="например: заброшенный маяк" required>
 
-            <label for="desc">описание *</label>
-            <textarea id="desc" rows="4" placeholder="краткое описание. БЕЗ КООРДИНАТ и точных адресов."></textarea>
+                <label for="type">тип *</label>
+                <input type="text" id="type" name="fields[type]" placeholder="завод / бункер / маяк / посёлок / больница / др." required>
 
-            <div class="hint">⚠️ координаты и точные адреса не публикуются — чтобы защитить места от вандалов.</div>
+                <label for="desc">описание *</label>
+                <textarea id="desc" name="fields[desc]" rows="4" placeholder="краткое описание. БЕЗ КООРДИНАТ и точных адресов." required></textarea>
 
-            <button onclick="addObject()">➕ добавить объект</button>
+                <div class="hint">⚠️ координаты и точные адреса не публикуются — чтобы защитить места от вандалов.</div>
+
+                <button type="submit" id="submitBtn">➕ отправить на модерацию</button>
+            </form>
         </div>
 
         <div class="footer">
@@ -176,26 +204,43 @@
     </div>
 
     <script>
-        function addObject() {
-            const name = document.getElementById('name').value.trim();
-            const type = document.getElementById('type').value.trim();
-            const desc = document.getElementById('desc').value.trim();
+        const form = document.getElementById('objectForm');
+        const messageEl = document.getElementById('formMessage');
 
-            if (!name || !type || !desc) {
-                alert('заполни все поля');
-                return;
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = '⏳ отправка...';
+
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value; });
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.fields && result.fields.name) {
+                    messageEl.className = 'message success';
+                    messageEl.innerHTML = '✅ объект отправлен на модерацию! он появится на сайте после проверки.';
+                    form.reset();
+                } else {
+                    throw new Error(result.message || 'ошибка отправки');
+                }
+            } catch (error) {
+                messageEl.className = 'message error';
+                messageEl.innerHTML = '❌ ошибка: ' + error.message + '. попробуй ещё раз.';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '➕ отправить на модерацию';
             }
-
-            let objects = JSON.parse(localStorage.getItem('sakh3p_objects')) || [];
-            objects.push({ name, type, desc });
-            localStorage.setItem('sakh3p_objects', JSON.stringify(objects));
-
-            alert('✅ объект добавлен!');
-
-            document.getElementById('name').value = '';
-            document.getElementById('type').value = '';
-            document.getElementById('desc').value = '';
-        }
+        });
     </script>
 </body>
 </html>
