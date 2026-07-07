@@ -1,1 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sakh3p — объекты</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0e0d0c;
+            color: #c5c0b8;
+            font-family: 'Segoe UI', 'Courier New', monospace;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            background: rgba(20, 18, 16, 0.85);
+            border: 1px solid #2f2a24;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            border-bottom: 2px solid #3d352e;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .logo h1 {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #d9c8b2;
+            font-family: 'Courier New', monospace;
+        }
+        .logo .sub {
+            font-size: 14px;
+            color: #8a7e72;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #1f1b17;
+            padding-bottom: 10px;
+        }
+        .nav a {
+            color: #b09b88;
+            text-decoration: none;
+            font-size: 15px;
+            padding: 6px 16px;
+            border: 1px solid transparent;
+            transition: 0.2s;
+            border-radius: 4px;
+        }
+        .nav a:hover {
+            background: #1f1b17;
+            border-color: #5f4d3b;
+            color: #e3d3c0;
+        }
+        .nav a.active {
+            background: #1f1b17;
+            border-color: #6f5a45;
+            color: #e3d3c0;
+        }
+        .section-title {
+            font-size: 18px;
+            color: #bfae9b;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 20px 0 15px 0;
+            border-bottom: 1px solid #2a2420;
+            padding-bottom: 8px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+        .card {
+            background: #141210;
+            border: 1px solid #2a2420;
+            padding: 16px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+        .card:hover {
+            border-color: #6a5542;
+            background: #1c1814;
+        }
+        .card .name {
+            color: #dacbbd;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .card .desc {
+            font-size: 13px;
+            color: #8f7f6e;
+            margin-top: 4px;
+        }
+        .card .type {
+            font-size: 11px;
+            color: #6a5f53;
+            margin-top: 6px;
+            border-top: 1px solid #1f1b17;
+            padding-top: 6px;
+        }
+        .empty {
+            color: #5f5346;
+            font-style: italic;
+            padding: 10px 0;
+        }
+        .form-area {
+            background: #11100d;
+            border: 1px solid #2a2420;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        .form-area input, .form-area textarea {
+            width: 100%;
+            background: #1a1714;
+            border: 1px solid #2f2a24;
+            color: #c5c0b8;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
+        .form-area input:focus, .form-area textarea:focus {
+            border-color: #6f5a45;
+            outline: none;
+        }
+        .form-area button {
+            background: #2f261f;
+            color: #dacbbd;
+            border: 1px solid #4d3d30;
+            padding: 10px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .form-area button:hover {
+            background: #4d3d30;
+            border-color: #6f5a45;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #1f1b17;
+            font-size: 13px;
+            color: #4d443b;
+            text-align: center;
+        }
+        .footer a {
+            color: #8a7a68;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .header { flex-direction: column; align-items: flex-start; }
+            .logo h1 { font-size: 28px; }
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
 
+        <div class="header">
+            <div class="logo">
+                <h1>🏚️ sakh3p</h1>
+                <div class="sub">архив заброшенных мест</div>
+            </div>
+        </div>
+
+        <div class="nav">
+            <a href="index.html">🏠 главная</a>
+            <a href="objects.html" class="active">📋 объекты</a>
+            <a href="library.html">📚 библиотека</a>
+            <a href="blog.html">📝 блоги</a>
+            <a href="add.html">➕ добавить</a>
+        </div>
+
+        <div class="section-title">📍 объекты</div>
+        <div class="grid" id="object-list">
+            <div class="empty">— пока ничего нет. добавь первый объект →</div>
+        </div>
+
+        <div class="section-title" style="margin-top:30px;">➕ добавить объект</div>
+        <div class="form-area">
+            <input type="text" id="obj-name" placeholder="название объекта">
+            <input type="text" id="obj-type" placeholder="тип (завод / бункер / маяк / посёлок / др.)">
+            <textarea id="obj-desc" rows="3" placeholder="описание (без координат)"></textarea>
+            <button onclick="addObject()">добавить</button>
+        </div>
+
+        <div class="footer">
+            <span style="color:#3d352e;">// sakh3p — архив заброшенных мест Сахалина //</span><br>
+            <span style="font-size:11px;">сделано вручную · 2026 · <a href="https://github.com/GawkerGames/sakh3p" target="_blank">github</a></span>
+        </div>
+
+    </div>
+
+    <script>
+        // Загрузка объектов из localStorage
+        let objects = JSON.parse(localStorage.getItem('sakh3p_objects')) || [];
+
+        function renderObjects() {
+            const list = document.getElementById('object-list');
+            if (objects.length === 0) {
+                list.innerHTML = '<div class="empty">— пока ничего нет. добавь первый объект →</div>';
+                return;
+            }
+            list.innerHTML = objects.map((obj, i) => `
+                <div class="card">
+                    <div class="name">${obj.name}</div>
+                    <div class="desc">${obj.desc}</div>
+                    <div class="type">${obj.type}</div>
+                </div>
+            `).join('');
+        }
+
+        function addObject() {
+            const name = document.getElementById('obj-name').value.trim();
+            const type = document.getElementById('obj-type').value.trim();
+            const desc = document.getElementById('obj-desc').value.trim();
+            if (!name || !type || !desc) {
+                alert('заполни все поля');
+                return;
+            }
+            objects.push({ name, type, desc });
+            localStorage.setItem('sakh3p_objects', JSON.stringify(objects));
+            renderObjects();
+            document.getElementById('obj-name').value = '';
+            document.getElementById('obj-type').value = '';
+            document.getElementById('obj-desc').value = '';
+        }
+
+        renderObjects();
+    </script>
+</body>
+</html>
